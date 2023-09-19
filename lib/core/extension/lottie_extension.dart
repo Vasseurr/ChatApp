@@ -1,0 +1,29 @@
+// ignore_for_file: constant_identifier_names
+
+import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+
+enum LottiePathEnum {
+  SUNNY,
+  MOON,
+}
+
+extension LottiePathEnumExtension on LottiePathEnum {
+  String get lottieValue {
+    switch (this) {
+      case LottiePathEnum.SUNNY:
+        return _pathValue('sun');
+      case LottiePathEnum.MOON:
+        return _pathValue('moon');
+    }
+  }
+
+  //TODO: add parameter for height and width
+  Widget get toWidget => Lottie.asset(lottieValue);
+
+  Widget toWidgetWithSize({double? height, double? width}) =>
+      Lottie.asset(lottieValue,
+          height: height, width: width, fit: BoxFit.cover);
+
+  String _pathValue(String path) => 'assets/lottie/$path.json';
+}
