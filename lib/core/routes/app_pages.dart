@@ -1,3 +1,7 @@
+import 'package:chat_app/product/view/chat_detail/binding/chat_detail_binding.dart';
+import 'package:chat_app/product/view/chat_detail/ui/chat_detail_page.dart';
+import 'package:chat_app/product/view/chats/binding/chats_binding.dart';
+import 'package:chat_app/product/view/chats/ui/chats_page.dart';
 import 'package:get/get.dart';
 import '../../core/routes/app_routes.dart';
 import '../../product/view/intro_page.dart';
@@ -11,6 +15,20 @@ class AppPages {
         name: Routes.initial,
         page: () => const IntroPage(),
         transition: Transition.fadeIn,
+        transitionDuration:
+            const Duration(milliseconds: DurationConstants.lowMidDuration)),
+    GetPage(
+        name: Routes.chats,
+        page: () => ChatsPage(),
+        binding: ChatsBinding(),
+        transition: Transition.leftToRight,
+        transitionDuration:
+            const Duration(milliseconds: DurationConstants.lowMidDuration)),
+    GetPage(
+        name: Routes.chatDetail,
+        page: () => ChatDetailPage(roomId: Get.arguments),
+        binding: ChatDetailBinding(),
+        transition: Transition.leftToRight,
         transitionDuration:
             const Duration(milliseconds: DurationConstants.lowMidDuration)),
   ];

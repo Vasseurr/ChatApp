@@ -14,6 +14,6 @@ class ProjectInit {
       statusBarColor: Colors.transparent,
     ));
     await HiveManager.preferencesInit();
-    await initializeDateFormatting();
+    //await initializeDateFormatting();
   }
 }

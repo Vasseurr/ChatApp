@@ -22,8 +22,9 @@ class BaseService {
       receiveTimeout:
           const Duration(seconds: DurationConstants.tenSeconds), //* 10 seconds
     ))
-      ..interceptors.add(LogInterceptor(
-          responseBody: true, requestBody: true, responseHeader: false));
+        /*   ..interceptors.add(LogInterceptor(
+          responseBody: true, requestBody: true, responseHeader: false))*/
+        ;
   }
 
   Future<dynamic> get<T extends IBaseModel>(String path,

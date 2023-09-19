@@ -1,7 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
 class AppConstants {
-  static const String BASE_URL = "http://10.0.3.2:8081/";
+  //static const String BASE_URL = "http://10.0.3.2:8081/";
+  static const String BASE_URL = "http://192.168.26.2:8080";
 
   static const String appName = "Project Setup";
 
