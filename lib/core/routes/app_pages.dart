@@ -28,7 +28,7 @@ class AppPages {
             const Duration(milliseconds: DurationConstants.lowMidDuration)),
     GetPage(
         name: Routes.chatDetail,
-        page: () => ChatDetailPage(roomId: Get.arguments),
+        page: () => ChatDetailPage(chatRoomModel: Get.arguments),
         binding: ChatDetailBinding(),
         transition: Transition.leftToRight,
         transitionDuration:

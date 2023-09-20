@@ -1,19 +1,20 @@
-import 'dart:developer';
-
 import 'package:chat_app/core/components/text/custom_text_form_field.dart';
-import 'package:chat_app/product/model/message_model.dart';
+import 'package:chat_app/core/components/widgets/custom_profile_image.dart';
+import 'package:chat_app/core/extension/context_extension.dart';
+import 'package:chat_app/product/model/chat_room_model.dart';
 import 'package:chat_app/product/view/chat_detail/controller/chat_detail_controller.dart';
 import 'package:chat_app/product/view/chat_detail/mixin/chat_detail_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../../core/constants/padding_values.dart';
 
 class ChatDetailPage extends StatefulWidget {
-  ChatDetailPage({Key? key, required this.roomId}) : super(key: key);
+  ChatDetailPage({Key? key, required this.chatRoomModel}) : super(key: key);
 
-  String roomId;
+  ChatRoomModel chatRoomModel;
 
   @override
   State<ChatDetailPage> createState() => _ChatDetailPageState();
@@ -93,25 +94,32 @@ class _ChatDetailPageState extends State<ChatDetailPage> with ChatDetailMixin {
               alignment: _chatDetailController.isSender(index)
                   ? Alignment.centerRight
                   : Alignment.centerLeft,
-              child: Container(
-                constraints: BoxConstraints(maxWidth: context.width * 0.7),
-                decoration: BoxDecoration(
-                  color: _chatDetailController.isSender(index)
-                      ? Colors.green
-                      : Colors.grey,
-                  borderRadius: BorderRadius.circular(40),
-                  border: Border.all(
-                      width: 1.0,
+              child: Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  _profilePhotoOrEmptyBox(index, false),
+                  Container(
+                    constraints: BoxConstraints(maxWidth: context.width * 0.7),
+                    decoration: BoxDecoration(
                       color: _chatDetailController.isSender(index)
                           ? Colors.green
-                          : Colors.grey),
-                ),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                child: Text(
-                  _chatDetailController.messageList[index].content ?? "",
-                  style: const TextStyle(color: Colors.white),
-                ),
+                          : Colors.grey,
+                      borderRadius: BorderRadius.circular(40),
+                      border: Border.all(
+                          width: 1.0,
+                          color: _chatDetailController.isSender(index)
+                              ? Colors.green
+                              : Colors.grey),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 16.0),
+                    child: Text(
+                      _chatDetailController.messageList[index].content ?? "",
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  _profilePhotoOrEmptyBox(index, true),
+                ],
               ),
             ),
           ),
@@ -120,21 +128,44 @@ class _ChatDetailPageState extends State<ChatDetailPage> with ChatDetailMixin {
     );
   }
 
+  Widget _profilePhotoOrEmptyBox(int index, bool isWidgetAlignRight) {
+    return isWidgetAlignRight
+        ? _chatDetailController.isSender(index) &&
+                !_chatDetailController.isNextMessageSameUser(index)
+            ? _customPImage(index)
+            : const SizedBox()
+        : !_chatDetailController.isSender(index) &&
+                !_chatDetailController.isNextMessageSameUser(index)
+            ? _customPImage(index)
+            : const SizedBox();
+  }
+
+  CustomProfileImage _customPImage(int index) {
+    return CustomProfileImage(
+        profilePhotoLink:
+            _chatDetailController.messageList[index].sender?.photoLink);
+  }
+
   Padding _sendMessage() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: CustomTFF(
         textEditingController: _chatDetailController.textEditingController,
         radius: 50,
+        borderColor: Colors.grey,
         //  hintTextColor: Colors.grey.shade800,
         //      hintText: LocaleKeys.feature_writeMessage.tr(),
         hintText: "send message",
+        hintColor: Colors.grey,
         suffixIcon: IconButton(
           icon: const Icon(
             Icons.send,
-            color: Colors.black,
+            color: Colors.grey,
           ),
-          onPressed: (() => {}),
+          onPressed: (() => {
+                FocusScope.of(context).unfocus(),
+                _chatDetailController.sendMessage()
+              }),
         ),
       ),
     );

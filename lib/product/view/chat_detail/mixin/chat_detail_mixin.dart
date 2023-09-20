@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:chat_app/core/extension/string_extension.dart';
 import 'package:chat_app/core/socket/socket_manager.dart';
 import 'package:chat_app/product/view/chat_detail/ui/chat_detail_page.dart';
 import 'package:flutter/material.dart';
@@ -19,14 +20,19 @@ mixin ChatDetailMixin on State<ChatDetailPage> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
-      await _chatDetailController.callRoomMessages(widget.roomId);
+      _chatDetailController.setChatRoomModel(widget.chatRoomModel);
+      if (!widget.chatRoomModel.id.isNotNullOrEmpty()) return;
+      await _chatDetailController.callRoomMessages(widget.chatRoomModel.id!);
       await initSocket();
-      _chatDetailController.scrollJump();
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        _chatDetailController.scrollJump();
+      });
+      // _chatDetailController.scrollJump();
     });
   }
 
   Future<void> initSocket() async {
-    await SocketManager.instance.initSocket(roomId: widget.roomId);
+    await SocketManager.instance.initSocket(roomId: widget.chatRoomModel.id!);
     /*log('Connecting to chat service');
     socket = io.io('ws://192.168.26.2:8085', <String, dynamic>{
       'transports': ['websocket'],

@@ -95,7 +95,7 @@ class CreateChatRoomController extends GetxController {
         Utils.instance.showCustomSnackbar("Success", "Chatroom is creating",
             snackbarType: SnackbarType.success);
         NavigationRoute.instance
-            .toReplacement(Routes.chatDetail, arguments: response.id);
+            .toReplacement(Routes.chatDetail, arguments: response);
       }
     } catch (e) {
       log("Create chat room exception $e");

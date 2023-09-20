@@ -45,7 +45,7 @@ class ChatsPage extends StatelessWidget {
                     roomModel: _chatsController.chatRoomList[index],
                     onTap: () => NavigationRoute.instance.toNamed(
                         Routes.chatDetail,
-                        arguments: _chatsController.chatRoomList[index].id),
+                        arguments: _chatsController.chatRoomList[index]),
                   );
                 },
               ),
