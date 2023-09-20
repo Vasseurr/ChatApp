@@ -1,4 +1,4 @@
-import 'package:chat_app/product/model/room_model.dart';
+import 'package:chat_app/product/model/chat_room_model.dart';
 import 'package:chat_app/product/model/user_model.dart';
 
 import '../../core/base/base_model.dart';
@@ -13,7 +13,7 @@ class MessageModel extends IBaseModel<MessageModel> {
   UserModel? sender;
   UserModel? receiver;
   String? content;
-  RoomModel? room;
+  ChatRoomModel? chatRoom;
 
   MessageModel({
     this.id,
@@ -25,7 +25,7 @@ class MessageModel extends IBaseModel<MessageModel> {
     this.sender,
     this.receiver,
     this.content,
-    this.room,
+    this.chatRoom,
   });
 
   MessageModel copyWith({
@@ -38,7 +38,7 @@ class MessageModel extends IBaseModel<MessageModel> {
     UserModel? sender,
     UserModel? receiver,
     String? content,
-    RoomModel? room,
+    ChatRoomModel? chatRoom,
   }) {
     return MessageModel(
       id: id ?? this.id,
@@ -50,7 +50,7 @@ class MessageModel extends IBaseModel<MessageModel> {
       sender: sender ?? this.sender,
       receiver: receiver ?? this.receiver,
       content: content ?? this.content,
-      room: room ?? this.room,
+      chatRoom: chatRoom ?? this.chatRoom,
     );
   }
 
@@ -66,7 +66,7 @@ class MessageModel extends IBaseModel<MessageModel> {
       'sender': sender,
       'receiver': receiver,
       'content': content,
-      'room': room,
+      'room': chatRoom,
     };
   }
 
@@ -85,19 +85,19 @@ class MessageModel extends IBaseModel<MessageModel> {
           ? null
           : UserModel.fromJson(json['receiver'] as Map<String, dynamic>),
       content: json['content'] as String?,
-      room: json['room'] == null
+      chatRoom: json['room'] == null
           ? null
-          : RoomModel.fromJson(json['room'] as Map<String, dynamic>),
+          : ChatRoomModel.fromJson(json['room'] as Map<String, dynamic>),
     );
   }
 
   @override
   String toString() =>
-      "MessageModel(id: $id,entityStatus: $entityStatus,createdDate: $createdDate,createdBy: $createdBy,modifiedDate: $modifiedDate,modifiedBy: $modifiedBy,sender: $sender,receiver: $receiver,content: $content,room: $room)";
+      "MessageModel(id: $id,entityStatus: $entityStatus,createdDate: $createdDate,createdBy: $createdBy,modifiedDate: $modifiedDate,modifiedBy: $modifiedBy,sender: $sender,receiver: $receiver,content: $content,room: $chatRoom)";
 
   @override
   int get hashCode => Object.hash(id, entityStatus, createdDate, createdBy,
-      modifiedDate, modifiedBy, sender, receiver, content, room);
+      modifiedDate, modifiedBy, sender, receiver, content, chatRoom);
 
   @override
   bool operator ==(Object other) =>
@@ -113,7 +113,7 @@ class MessageModel extends IBaseModel<MessageModel> {
           sender == other.sender &&
           receiver == other.receiver &&
           content == other.content &&
-          room == other.room;
+          chatRoom == other.chatRoom;
 
   @override
   MessageModel fromJson(Map<String, dynamic> json) {

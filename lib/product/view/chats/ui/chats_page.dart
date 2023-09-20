@@ -3,6 +3,7 @@ import 'package:chat_app/product/view/chats/controller/chats_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/routes/app_routes.dart';
 import 'widget/chat_room_card.dart';
 
@@ -15,6 +16,24 @@ class ChatsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Chats"),
+        actions: [
+          IconButton(
+            onPressed: () =>
+                NavigationRoute.instance.toNamed(Routes.createChatRoom)
+                    //* for refresh list
+                    .then(
+              (value) {
+                /*ChatRoomsPage().textEditingController.clear();
+                    Get.find<MessagesController>().tempUserList.value =
+                        Get.find<MessagesController>().userList.toList();*/
+              },
+            ),
+            icon: const Icon(
+              Icons.add_box_rounded,
+              size: AppConstants.midRadius,
+            ),
+          )
+        ],
       ),
       body: Obx(
         () => _chatsController.isLoading.value

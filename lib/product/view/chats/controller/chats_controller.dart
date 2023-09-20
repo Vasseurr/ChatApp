@@ -1,16 +1,16 @@
 import 'dart:developer';
 
-import 'package:chat_app/product/model/room_model.dart';
-import 'package:chat_app/product/service/room_service.dart';
+import 'package:chat_app/product/model/chat_room_model.dart';
+import 'package:chat_app/product/service/chat_room_service.dart';
 import 'package:get/get.dart';
 
 class ChatsController extends GetxController {
-  final RoomService _roomService = RoomService.instance;
+  final ChatRoomService _roomService = ChatRoomService.instance;
 
   RxBool isLoading = true.obs;
   void changeLoading(bool value) => isLoading.value = value;
 
-  RxList<RoomModel> chatRoomList = RxList();
+  RxList<ChatRoomModel> chatRoomList = RxList();
 
   @override
   Future<void> onInit() async {

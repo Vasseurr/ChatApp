@@ -22,9 +22,8 @@ class BaseService {
       receiveTimeout:
           const Duration(seconds: DurationConstants.tenSeconds), //* 10 seconds
     ))
-        /*   ..interceptors.add(LogInterceptor(
-          responseBody: true, requestBody: true, responseHeader: false))*/
-        ;
+      ..interceptors.add(LogInterceptor(
+          responseBody: true, requestBody: true, responseHeader: false));
   }
 
   Future<dynamic> get<T extends IBaseModel>(String path,
@@ -106,6 +105,7 @@ class BaseService {
   dynamic _jsonBodyParser<T>(IBaseModel model, dynamic body) {
     final jsonBody = jsonDecode(jsonEncode(body));
     //log("After decoding\n ${jsonBody.toString()}");
+
     if (jsonBody is List) {
       return jsonBody.map((e) => model.fromJson(e)).toList().cast<T>();
     } else if (jsonBody is Map) {

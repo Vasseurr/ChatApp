@@ -1,11 +1,11 @@
-import 'package:chat_app/product/model/room_model.dart';
+import 'package:chat_app/product/model/chat_room_model.dart';
 import 'package:flutter/material.dart';
 
 class ChatRoomCard extends StatelessWidget {
   ChatRoomCard({Key? key, required this.roomModel, required this.onTap})
       : super(key: key);
 
-  RoomModel roomModel;
+  ChatRoomModel roomModel;
   VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
@@ -22,5 +22,10 @@ class ChatRoomCard extends StatelessWidget {
 
   String getRoomTitle() => roomModel.users == null
       ? ""
-      : roomModel.users!.map((e) => "${e.userName}, ").toString();
+      : roomModel.users!
+          .map((e) =>
+              roomModel.users?.indexOf(e) != (roomModel.users!.length - 1)
+                  ? "${e.userName}, "
+                  : "${e.userName}")
+          .toString();
 }

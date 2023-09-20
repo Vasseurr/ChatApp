@@ -5,4 +5,5 @@ abstract class Routes {
   static String register = '/register';
   static String chats = '/chats';
   static String chatDetail = '/chatDetail';
+  static String createChatRoom = '/createChatRoom';
 }

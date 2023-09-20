@@ -56,5 +56,11 @@ class MyColors {
   static const greyBackgroundColor = Color.fromRGBO(239, 236, 251, 1);
   static const greyColor = Color.fromRGBO(237, 233, 238, 1);
 
-  //rgb(237,233,238)
+  //* Appbar
+  static const primaryBlueColor = Color.fromARGB(255, 137, 65, 220);
+  static const primaryGreenColor = Color.fromARGB(255, 35, 32, 219);
+  static const List<Color> primaryColorList = [
+    primaryBlueColor,
+    primaryGreenColor
+  ];
 }

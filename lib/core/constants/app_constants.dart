@@ -17,4 +17,7 @@ class AppConstants {
 
   //*Height
   static const double appBarHeight = 80.0;
+
+  static const String avatarMaleURL =
+      "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png";
 }

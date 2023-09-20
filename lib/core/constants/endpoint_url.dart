@@ -6,7 +6,7 @@ class EndPointUrl {
   //* auth
   static const String REGISTER = '/register';
   static const String LOGIN = '/login';
-  static const String PROFILE = '/profile';
+  static const String USER = '/user';
   static const String ROOM = '/room';
   static const String MESSAGE = '/message';
 

@@ -1,7 +1,7 @@
 import 'package:chat_app/core/base/base_model.dart';
 import 'package:chat_app/product/model/user_model.dart';
 
-class RoomModel extends IBaseModel<RoomModel> {
+class ChatRoomModel extends IBaseModel<ChatRoomModel> {
   String? id;
   String? entityStatus;
   String? createdDate;
@@ -11,7 +11,7 @@ class RoomModel extends IBaseModel<RoomModel> {
   List<UserModel>? users;
   UserModel? onlineUser;
 
-  RoomModel({
+  ChatRoomModel({
     this.id,
     this.entityStatus,
     this.createdDate,
@@ -22,7 +22,7 @@ class RoomModel extends IBaseModel<RoomModel> {
     this.onlineUser,
   });
 
-  RoomModel copyWith({
+  ChatRoomModel copyWith({
     String? id,
     String? entityStatus,
     String? createdDate,
@@ -32,7 +32,7 @@ class RoomModel extends IBaseModel<RoomModel> {
     List<UserModel>? users,
     UserModel? onlineUser,
   }) {
-    return RoomModel(
+    return ChatRoomModel(
       id: id ?? this.id,
       entityStatus: entityStatus ?? this.entityStatus,
       createdDate: createdDate ?? this.createdDate,
@@ -44,6 +44,7 @@ class RoomModel extends IBaseModel<RoomModel> {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -57,8 +58,8 @@ class RoomModel extends IBaseModel<RoomModel> {
     };
   }
 
-  factory RoomModel.fromJson(Map<String, dynamic> json) {
-    return RoomModel(
+  factory ChatRoomModel.fromJson(Map<String, dynamic> json) {
+    return ChatRoomModel(
       id: json['id'] as String?,
       entityStatus: json['entityStatus'] as String?,
       createdDate: json['createdDate'] as String?,
@@ -68,13 +69,15 @@ class RoomModel extends IBaseModel<RoomModel> {
       users: (json['users'] as List<dynamic>?)
           ?.map((e) => UserModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      onlineUser: json['onlineUser'] as UserModel?,
+      onlineUser: json['onlineUser'] != null
+          ? UserModel.fromJson(json['onlineUser'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   @override
   String toString() =>
-      "RoomModel(id: $id,entityStatus: $entityStatus,createdDate: $createdDate,createdBy: $createdBy,modifiedDate: $modifiedDate,modifiedBy: $modifiedBy,users: $users,onlineUser: $onlineUser)";
+      "ChatRoomModel(id: $id,entityStatus: $entityStatus,createdDate: $createdDate,createdBy: $createdBy,modifiedDate: $modifiedDate,modifiedBy: $modifiedBy,users: $users,onlineUser: $onlineUser)";
 
   @override
   int get hashCode => Object.hash(id, entityStatus, createdDate, createdBy,
@@ -83,7 +86,7 @@ class RoomModel extends IBaseModel<RoomModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is RoomModel &&
+      other is ChatRoomModel &&
           runtimeType == other.runtimeType &&
           id == other.id &&
           entityStatus == other.entityStatus &&
@@ -95,7 +98,7 @@ class RoomModel extends IBaseModel<RoomModel> {
           onlineUser == other.onlineUser;
 
   @override
-  RoomModel fromJson(Map<String, dynamic> json) {
-    return RoomModel.fromJson(json);
+  ChatRoomModel fromJson(Map<String, dynamic> json) {
+    return ChatRoomModel.fromJson(json);
   }
 }
