@@ -15,7 +15,7 @@ class ChatsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Chats"),
+        title: const Text("Chats with friends"),
         actions: [
           IconButton(
             onPressed: () =>

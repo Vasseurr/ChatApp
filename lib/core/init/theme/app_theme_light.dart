@@ -34,8 +34,11 @@ class AppThemeLight extends AppTheme with ILightTheme {
           textTheme: GoogleFonts.comfortaaTextTheme(),
           canvasColor: Colors.transparent,
           appBarTheme: _appBarTheme(),
+          buttonTheme:
+              ButtonThemeData(buttonColor: colorSchemeLight.colorWhite),
+          primaryIconTheme: IconThemeData(color: colorSchemeLight.colorWhite),
           // scaffoldBackgroundColor: ColorSchemeLight.instance.colorGreen,
-          scaffoldBackgroundColor: MyColors.greyBackgroundColor,
+          scaffoldBackgroundColor: Colors.white,
           iconTheme: IconThemeData(color: ColorSchemeLight.instance.colorWhite)
               .copyWith(),
           floatingActionButtonTheme:
@@ -87,7 +90,7 @@ class AppThemeLight extends AppTheme with ILightTheme {
             color: colorSchemeLight.colorWhite,
             fontSize: TextConstants.highFontSize),
         iconTheme: IconThemeData(
-          color: colorSchemeLight.colorSolidBlack,
+          color: colorSchemeLight.colorWhite,
           size: 32,
         )).copyWith();
   }

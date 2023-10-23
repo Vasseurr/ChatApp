@@ -8,6 +8,7 @@ import 'package:chat_app/product/model/chat_room/create_chat_room_model.dart';
 import 'package:chat_app/product/model/chat_room_model.dart';
 import 'package:chat_app/product/service/chat_room_service.dart';
 import 'package:chat_app/product/service/user_service.dart';
+import 'package:chat_app/product/view/chats/controller/chats_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -86,14 +87,18 @@ class CreateChatRoomController extends GetxController {
       CreateChatRoomModel createChatRoomModel = CreateChatRoomModel();
       createChatRoomModel
         ..onlineUser = UserFactory.user
-        ..users = selectedUserList;
+        ..users = selectedUserList.toList();
       //* adding online user
-      createChatRoomModel.users!.add(UserFactory.user);
+      // createChatRoomModel.users!.add(UserFactory.user);
       ChatRoomModel response =
           await _roomService.saveChatRoom(createChatRoomModel);
+      inspect(response);
       if (response.id.isNotNullOrEmpty()) {
-        Utils.instance.showCustomSnackbar("Success", "Chatroom is creating",
-            snackbarType: SnackbarType.success);
+        if (response.createdBefore != null && !response.createdBefore!) {
+          Get.find<ChatsController>().chatRoomList.insert(0, response);
+          Utils.instance.showCustomSnackbar("Success", "Chatroom is creating",
+              snackbarType: SnackbarType.success);
+        }
         NavigationRoute.instance
             .toReplacement(Routes.chatDetail, arguments: response);
       }

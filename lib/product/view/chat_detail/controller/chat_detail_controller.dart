@@ -39,7 +39,10 @@ class ChatDetailController extends GetxController {
     this.roomId = roomId;
     log("HHH ${this.roomId}");
     try {
-      messageList.value = await _messageService.getAllMessages(roomId);
+      final List<MessageModel> list =
+          await _messageService.getAllMessages(roomId);
+      list.sort((a, b) => a.createdDate!.compareTo(b.createdDate!));
+      messageList.value = list;
     } catch (e) {
       log("Get messages from room error $e");
     }
@@ -47,7 +50,7 @@ class ChatDetailController extends GetxController {
   }
 
   bool isSender(int index) =>
-      messageList[index].sender?.id == UserFactory.user.id;
+      index == -1 ? true : messageList[index].sender?.id == UserFactory.user.id;
 
   //* if the two message which sent by same user, do not show profile image both of them
   bool isNextMessageSameUser(int index) {
@@ -56,14 +59,38 @@ class ChatDetailController extends GetxController {
         : messageList[index].sender?.id == messageList[index + 1].sender?.id;
   }
 
-  void addMessage(MessageModel model) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      messageList.add(model);
-      if (duration != highDuration) {
-        duration = highDuration;
+  String getRoomTitle(ChatRoomModel chatRoomModel) {
+    if (chatRoomModel.users == null && chatRoomModel.users!.isEmpty) return "";
+    String title = "";
+
+    //* show two username unless length of the user list is bigger than 3 (2 + currentUser)
+    if (chatRoomModel.users!.length > 3) {
+      //* ${roomModel.users!.length - 2} means one username is showing (users.length - 1 - currentUser)
+      return "${chatRoomModel.users!.first.userName.getValue()} and ${chatRoomModel.users!.length - 2} more";
+    }
+    for (var user in chatRoomModel.users!) {
+      //* do not show current username and if the room has 2 user(current user and other), do not show any user in room title
+      if (user.userName.isNotNullOrEmpty() && user.id != UserFactory.user.id) {
+        title += user.userName!;
+        //* check the index of user is last item (users.length - 1 - currentUser)
+        if (chatRoomModel.users!.indexOf(user) !=
+            chatRoomModel.users!.length - 2) {
+          title += ", ";
+        }
       }
-      scrollJump();
-    });
+    }
+    return title;
+  }
+
+  void addMessage(MessageModel model) {
+//    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    messageList.add(model);
+    log("Length message list: " + messageList.length.toString());
+    if (duration != highDuration) {
+      duration = highDuration;
+    }
+    scrollJump();
+    // });
     /*   messageList.add(model);
     if (duration != highDuration) {
       duration = highDuration;

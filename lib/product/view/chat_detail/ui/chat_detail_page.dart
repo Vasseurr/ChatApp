@@ -1,6 +1,7 @@
 import 'package:chat_app/core/components/text/custom_text_form_field.dart';
 import 'package:chat_app/core/components/widgets/custom_profile_image.dart';
 import 'package:chat_app/core/extension/context_extension.dart';
+import 'package:chat_app/core/extension/widget_extension.dart';
 import 'package:chat_app/product/model/chat_room_model.dart';
 import 'package:chat_app/product/view/chat_detail/controller/chat_detail_controller.dart';
 import 'package:chat_app/product/view/chat_detail/mixin/chat_detail_mixin.dart';
@@ -53,7 +54,16 @@ class _ChatDetailPageState extends State<ChatDetailPage> with ChatDetailMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Chat detail")),
+      appBar: AppBar(
+          title: Row(
+        children: [
+          const Spacer(),
+          Text(_chatDetailController.getRoomTitle(widget.chatRoomModel)),
+          context.spaceWidth(context.getWidth * .03),
+          CustomProfileImage(
+              profilePhotoLink: widget.chatRoomModel.users?.first.photoLink),
+        ],
+      )),
       body: Obx(
         () => _chatDetailController.isLoading.value
             ? const Center(child: CircularProgressIndicator())
@@ -76,11 +86,14 @@ class _ChatDetailPageState extends State<ChatDetailPage> with ChatDetailMixin {
 
   Expanded _list() {
     return Expanded(
-        child: ScrollablePositionedList.builder(
-      itemCount: _chatDetailController.messageList.length,
-      itemBuilder: (context, index) => _message(context, index),
-      itemScrollController: _chatDetailController.itemScrollController,
-    ));
+        child: _chatDetailController.messageList.isEmpty
+            ? const SizedBox.shrink()
+            : ScrollablePositionedList.builder(
+                itemCount: _chatDetailController.messageList.length,
+                itemBuilder: (context, index) => _message(context, index),
+                itemScrollController:
+                    _chatDetailController.itemScrollController,
+              ));
   }
 
   GestureDetector _message(BuildContext context, int index) {
@@ -162,9 +175,9 @@ class _ChatDetailPageState extends State<ChatDetailPage> with ChatDetailMixin {
             Icons.send,
             color: Colors.grey,
           ),
-          onPressed: (() => {
+          onPressed: (() async => {
                 FocusScope.of(context).unfocus(),
-                _chatDetailController.sendMessage()
+                await _chatDetailController.sendMessage()
               }),
         ),
       ),

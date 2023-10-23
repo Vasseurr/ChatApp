@@ -9,7 +9,7 @@ class ColorSchemeLight {
 
   ColorSchemeLight._init();
 
-  final Color backgroundColor = Colors.white;
+  final Color backgroundColor = const Color.fromARGB(255, 86, 165, 128);
 
   //* bottom bar
   final Color bottomBarUnselectedIconColor = const Color(0xffacacac);

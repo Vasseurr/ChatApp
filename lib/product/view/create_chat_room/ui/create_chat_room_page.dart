@@ -4,6 +4,7 @@ import 'package:chat_app/product/view/create_chat_room/mixin/create_chat_room_mi
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide ContextExtensionss;
 import 'package:sizer/sizer.dart';
+import '../../../../core/extension/string_extension.dart';
 
 import '../../../../core/components/widgets/custom_profile_image.dart';
 import '../../../../core/constants/app_constants.dart';
@@ -158,7 +159,7 @@ class _CreateChatRoomPageState extends State<CreateChatRoomPage>
                 profilePhotoLink:
                     _createChatRoomController.tempUserList[index].photoLink),
             title: Text(
-              "${_createChatRoomController.tempUserList[index].firstName} ${_createChatRoomController.tempUserList[index].lastName}",
+              "${_createChatRoomController.tempUserList[index].firstName?.toCapitalize()} ${_createChatRoomController.tempUserList[index].lastName?.toCapitalize()}",
               style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
             ),
             subtitle: Text(

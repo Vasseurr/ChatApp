@@ -26,7 +26,9 @@ class ChatsController extends GetxController {
 
   Future<void> _getAllChatRooms() async {
     try {
-      chatRoomList.value = await _roomService.getAllRooms();
+      final List<ChatRoomModel> list = await _roomService.getAllRooms();
+      list.sort((a, b) => b.modifiedDate!.compareTo(a.modifiedDate!));
+      chatRoomList.value = list;
     } catch (e) {
       log("Get all chat rooms error $e");
     }

@@ -5,6 +5,7 @@ import 'package:sizer/sizer.dart';
 
 import 'core/init/lang/localization_manager.dart';
 import 'core/init/init.dart';
+import 'core/init/theme/app_theme_light.dart';
 import 'core/routes/app_pages.dart';
 import 'core/routes/app_routes.dart';
 
@@ -28,11 +29,11 @@ class MyApp extends StatelessWidget {
     return Sizer(builder: (context, orientation, deviceType) {
       return GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: Routes.initial,
+        initialRoute: Routes.chats,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
-        //theme: AppThemeLight.instance.theme,
+        theme: AppThemeLight.instance.theme,
         getPages: AppPages.pages,
       );
     });

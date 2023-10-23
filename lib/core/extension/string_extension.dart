@@ -32,6 +32,8 @@ extension DateTimeConverter on String {
 
 extension NullableStringValidator on String? {
   bool isNotNullOrEmpty() => this != null && this!.isNotEmpty;
+
+  String getValue() => this != null ? this! : "";
 }
 
 extension StringExtension on String {
