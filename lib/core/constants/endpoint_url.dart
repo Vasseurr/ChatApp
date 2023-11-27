@@ -16,4 +16,5 @@ class EndPointUrl {
 
   static const String LIST_ALL = '/listAll';
   static const String LIST_ALL_BY_ROOM = '/listAllByRoom';
+  static const String LIST_ALL_BY_USER = '/listAllByUser';
 }

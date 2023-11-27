@@ -9,7 +9,8 @@ class ColorSchemeLight {
 
   ColorSchemeLight._init();
 
-  final Color backgroundColor = const Color.fromARGB(255, 86, 165, 128);
+  //final Color backgroundColor = const Color.fromARGB(255, 86, 165, 128);
+  final Color backgroundColor = Colors.white;
 
   //* bottom bar
   final Color bottomBarUnselectedIconColor = const Color(0xffacacac);
@@ -30,6 +31,7 @@ class ColorSchemeLight {
   final Color colorBlue = const Color(0xFF00C6B8);
   final Color colorSolidBlack = const Color(0xFF393e46);
   final Color colorBlack = const Color(0xFF222831);
+  final Color colorGrey = Colors.grey.shade600;
   final Color colorWhite = const Color(0xFFeeeeee);
 //  final Color colorGrey = Color(0xFFeeeeee);
 

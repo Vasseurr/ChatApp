@@ -13,7 +13,8 @@ class UserFactory {
       userName: "ktaslan",
       email: "abk@gmail.com",
       password: "121212",
-      photoLink: null);
+      photoLink:
+          "https://img.freepik.com/premium-vector/man-character_665280-46970.jpg");
 
   /*static get user => HiveManager.instance.getUser() == null
       ? null

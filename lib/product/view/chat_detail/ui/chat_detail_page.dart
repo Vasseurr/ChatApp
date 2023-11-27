@@ -1,14 +1,16 @@
+import 'dart:developer';
+
 import 'package:chat_app/core/components/text/custom_text_form_field.dart';
 import 'package:chat_app/core/components/widgets/custom_profile_image.dart';
+import 'package:chat_app/core/constants/app_constants.dart';
 import 'package:chat_app/core/extension/context_extension.dart';
 import 'package:chat_app/core/extension/widget_extension.dart';
 import 'package:chat_app/product/model/chat_room_model.dart';
 import 'package:chat_app/product/view/chat_detail/controller/chat_detail_controller.dart';
 import 'package:chat_app/product/view/chat_detail/mixin/chat_detail_mixin.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide ContextExtensionss;
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:sizer/sizer.dart';
 
 import '../../../../core/constants/padding_values.dart';
 
@@ -58,10 +60,13 @@ class _ChatDetailPageState extends State<ChatDetailPage> with ChatDetailMixin {
           title: Row(
         children: [
           const Spacer(),
-          Text(_chatDetailController.getRoomTitle(widget.chatRoomModel)),
+          Text(_chatDetailController.getRoomTitle(widget.chatRoomModel),
+              style: context.textTheme.titleMedium),
           context.spaceWidth(context.getWidth * .03),
           CustomProfileImage(
-              profilePhotoLink: widget.chatRoomModel.users?.first.photoLink),
+              profilePhotoLink: _chatDetailController
+                  .getReceiverModel(chatRoom: widget.chatRoomModel)
+                  .photoLink),
         ],
       )),
       body: Obx(
@@ -72,13 +77,14 @@ class _ChatDetailPageState extends State<ChatDetailPage> with ChatDetailMixin {
     );
   }
 
-  Padding _body() {
-    return Padding(
+  Container _body() {
+    return Container(
+      color: Colors.grey.shade100,
       padding: EdgeInsets.only(top: CustomPaddingValues.mediumH),
       child: Column(
         children: [
           _list(),
-          _sendMessage(),
+          _bottomBox(),
         ],
       ),
     );
@@ -112,12 +118,14 @@ class _ChatDetailPageState extends State<ChatDetailPage> with ChatDetailMixin {
                 children: [
                   _profilePhotoOrEmptyBox(index, false),
                   Container(
-                    constraints: BoxConstraints(maxWidth: context.width * 0.7),
+                    constraints:
+                        BoxConstraints(maxWidth: context.getWidth * 0.7),
                     decoration: BoxDecoration(
                       color: _chatDetailController.isSender(index)
                           ? Colors.green
                           : Colors.grey,
-                      borderRadius: BorderRadius.circular(40),
+                      borderRadius:
+                          BorderRadius.circular(AppConstants.lowRadius),
                       border: Border.all(
                           width: 1.0,
                           color: _chatDetailController.isSender(index)
@@ -159,26 +167,74 @@ class _ChatDetailPageState extends State<ChatDetailPage> with ChatDetailMixin {
             _chatDetailController.messageList[index].sender?.photoLink);
   }
 
-  Padding _sendMessage() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: CustomTFF(
-        textEditingController: _chatDetailController.textEditingController,
-        radius: 50,
-        borderColor: Colors.grey,
-        //  hintTextColor: Colors.grey.shade800,
-        //      hintText: LocaleKeys.feature_writeMessage.tr(),
-        hintText: "send message",
-        hintColor: Colors.grey,
-        suffixIcon: IconButton(
-          icon: const Icon(
-            Icons.send,
-            color: Colors.grey,
-          ),
-          onPressed: (() async => {
-                FocusScope.of(context).unfocus(),
-                await _chatDetailController.sendMessage()
-              }),
+  Container _bottomBox() {
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.all(8),
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(AppConstants.midRadius)),
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 10,
+              child: _sendMessage(),
+            ),
+            context.spaceWidth(context.getWidth * .02),
+            _chatDetailController.isEmptyText.value
+                ? _greenButton(Icons.mic_rounded, () {
+                    log("message");
+                  })
+                : _greenButton(
+                    Icons.send_rounded,
+                    (() async => {
+                          FocusScope.of(context).unfocus(),
+                          await _chatDetailController.sendMessage()
+                        }),
+                  )
+          ],
+        ),
+      ),
+    );
+  }
+
+  CustomTFF _sendMessage() {
+    return CustomTFF(
+      textEditingController: _chatDetailController.textEditingController,
+      radius: AppConstants.lowRadius,
+      borderColor: Colors.grey.shade300,
+      //  hintTextColor: Colors.grey.shade800,
+      //      hintText: LocaleKeys.feature_writeMessage.tr(),
+      hintText: "Type a message",
+      hintColor: Colors.grey,
+      suffixIcon: IconButton(
+        icon: Icon(
+          _chatDetailController.keyboardIsOpen(context).value
+              ? Icons.send
+              : Icons.camera_alt_rounded,
+          //Icons.camera_alt_rounded,
+          color: Colors.grey,
+        ),
+        onPressed: (() async => {
+              FocusScope.of(context).unfocus(),
+              await _chatDetailController.sendMessage()
+            }),
+      ),
+      onChanged: (text) => _chatDetailController.controlEmptyTextValue(text),
+    );
+  }
+
+  InkWell _greenButton(IconData iconData, Function() onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(8.0),
+        decoration:
+            const BoxDecoration(color: Colors.green, shape: BoxShape.circle),
+        child: Icon(
+          iconData,
+          color: Colors.white,
         ),
       ),
     );

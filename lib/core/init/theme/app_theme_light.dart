@@ -87,10 +87,11 @@ class AppThemeLight extends AppTheme with ILightTheme {
         // backgroundColor: colorSchemeLight.colorGreen,
         backgroundColor: colorSchemeLight.backgroundColor,
         titleTextStyle: TextStyle(
-            color: colorSchemeLight.colorWhite,
+            color: colorSchemeLight.colorGrey,
             fontSize: TextConstants.highFontSize),
+        elevation: 0.5,
         iconTheme: IconThemeData(
-          color: colorSchemeLight.colorWhite,
+          color: colorSchemeLight.colorGrey,
           size: 32,
         )).copyWith();
   }

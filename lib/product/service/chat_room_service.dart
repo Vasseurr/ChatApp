@@ -1,3 +1,4 @@
+import 'package:chat_app/core/extension/string_extension.dart';
 import 'package:chat_app/product/model/chat_room/create_chat_room_model.dart';
 
 import '../../core/base/base_service.dart';
@@ -22,5 +23,13 @@ class ChatRoomService extends BaseService {
 
     return await post<ChatRoomModel>(url,
         requestModel: createChatRoomModel, responseModel: ChatRoomModel());
+  }
+
+  Future<List<ChatRoomModel>> getAllRoomsByUser(String? userId) async {
+    if (!userId.isNotNullOrEmpty()) throw Exception("User id not found");
+    String url =
+        EndPointUrl.VERSION + EndPointUrl.ROOM + EndPointUrl.LIST_ALL_BY_USER;
+    url += "/$userId";
+    return await get<ChatRoomModel>(url, model: ChatRoomModel());
   }
 }

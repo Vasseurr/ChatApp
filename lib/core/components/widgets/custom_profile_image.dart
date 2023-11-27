@@ -12,18 +12,17 @@ class CustomProfileImage extends StatelessWidget {
     Key? key,
     this.profilePhotoLink,
     this.fit,
+    this.isCircle = true,
+    this.userCardColor,
   }) : super(key: key);
   String? profilePhotoLink;
+  bool isCircle;
   BoxFit? fit;
+  Color? userCardColor;
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          // gradient: const LinearGradient(colors: ColorRes.primaryColorList),
-          border: Border.all(
-            color: Colors.transparent,
-          ),
-          shape: BoxShape.circle),
+      decoration: isCircle ? _circleBoxDecoration() : _rectangleBoxDecoration(),
       child: Padding(
         padding: EdgeInsets.all(1.sp),
         child: CachedNetworkImage(
@@ -38,8 +37,8 @@ class CustomProfileImage extends StatelessWidget {
                         /*NetworkImage(photoLink ??
                           "AppConstants.defaultProfileImageUrl"),*/
                         fit: fit ?? BoxFit.cover),
-                    shape: BoxShape.circle,
-                    color: Colors.black),
+                    shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
+                    color: userCardColor ?? Colors.black),
               );
             },
             imageUrl: profilePhotoLink ?? AppConstants.avatarMaleURL,
@@ -56,6 +55,22 @@ class CustomProfileImage extends StatelessWidget {
                 )),
       ),
     );
+  }
+
+  BoxDecoration _rectangleBoxDecoration() => BoxDecoration(
+      // gradient: const LinearGradient(colors: ColorRes.primaryColorList),
+      border: Border.all(
+        color: Colors.transparent,
+      ),
+      shape: BoxShape.rectangle);
+
+  BoxDecoration _circleBoxDecoration() {
+    return BoxDecoration(
+        // gradient: const LinearGradient(colors: ColorRes.primaryColorList),
+        border: Border.all(
+          color: Colors.transparent,
+        ),
+        shape: BoxShape.circle);
   }
 }
 

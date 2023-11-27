@@ -64,7 +64,7 @@ class _CreateChatRoomPageState extends State<CreateChatRoomPage>
             style: TextButton.styleFrom(
                 primary: _createChatRoomController.selectedUserList.isEmpty
                     ? Colors.grey
-                    : Colors.white),
+                    : Colors.grey.shade900),
             onPressed: _createChatRoomController.selectedUserList.isEmpty
                 ? null
                 : () => _createChatRoomController.createChatRoom(),

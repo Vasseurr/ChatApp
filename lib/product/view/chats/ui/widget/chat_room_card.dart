@@ -10,20 +10,31 @@ import 'package:flutter/material.dart';
 import '../../../../../core/mixin/date_time_mixin.dart';
 
 class ChatRoomCard extends StatelessWidget with DateTimeMixin {
-  ChatRoomCard({Key? key, required this.roomModel, required this.onTap})
-      : super(key: key);
+  ChatRoomCard({
+    Key? key,
+    required this.roomModel,
+    required this.onTap,
+    this.receiverPhotoLink,
+    required this.chatRoomBackgroundColor,
+    required this.userCardBackgroundColor,
+  }) : super(key: key);
 
   ChatRoomModel roomModel;
   VoidCallback onTap;
+  Color chatRoomBackgroundColor;
+  Color userCardBackgroundColor;
+  String? receiverPhotoLink;
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Padding(
+      child: Container(
+        color: chatRoomBackgroundColor,
         padding: EdgeInsets.symmetric(vertical: context.getHeight * .005),
         child: ListTile(
           leading: CustomProfileImage(
-            profilePhotoLink: roomModel.users?.first.photoLink,
+            userCardColor: userCardBackgroundColor,
+            profilePhotoLink: receiverPhotoLink,
           ),
           title: Text(
             getRoomTitle(),
@@ -80,7 +91,7 @@ class ChatRoomCard extends StatelessWidget with DateTimeMixin {
       if (user.userName.isNotNullOrEmpty() && user.id != UserFactory.user.id) {
         title += user.userName!;
         //* check the index of user is last item (users.length - 1 - currentUser)
-        if (roomModel.users!.indexOf(user) != roomModel.users!.length - 2) {
+        if (roomModel.users!.indexOf(user) != roomModel.users!.length - 1) {
           title += ", ";
         }
       }
