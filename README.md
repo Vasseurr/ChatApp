@@ -3,4 +3,4 @@
 Chat with your friends
 
 
-![chatApp](https://github.com/Vasseurr/ChatApp/assets/67058617/cc13210e-7567-4ae3-b64b-622daba722fd)
+![chatApp](https://github.com/Vasseurr/ChatApp/assets/67058617/dc5057ae-882a-451a-b447-12d629e520a0)
